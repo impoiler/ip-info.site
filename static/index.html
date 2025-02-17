@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Geolocation API Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --border: #30363d;
+            --success: #238636;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+
+        .github-link {
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .github-link:hover {
+            opacity: 0.8;
+        }
+
+        h1 {
+            color: var(--text-primary);
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            color: var(--text-primary);
+            margin-top: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .endpoint {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .endpoint h3 {
+            margin: 0 0 1rem 0;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        code {
+            background-color: var(--bg-primary);
+            color: var(--accent);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        .try-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--success);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-top: 1rem;
+            transition: background-color 0.2s;
+            font-weight: 500;
+        }
+
+        .try-btn:hover {
+            background-color: #2ea043;
+        }
+
+        .response-example {
+            background-color: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .response-example pre {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .method {
+            color: #a371f7;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container header-content">
+            <h1>IP Geolocation API</h1>
+            <div class="author-info">
+                <span>by Suresh</span>
+                <a href="https://github.com/impoiler/ip-info.site" class="github-link">
+                    <i class="fab fa-github"></i>
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <p>A fast and reliable service that provides IP address geolocation information using the MaxMind GeoLite2 database. Get detailed location data for any IP address or discover your own IP address with our simple API endpoints.</p>
+
+        <h2>Available Endpoints</h2>
+
+        <div class="endpoint">
+            <h3>
+                <i class="fas fa-network-wired"></i>
+                Get Your IP Address
+            </h3>
+            <p><strong>Endpoint:</strong> <span class="method">GET</span> <code>/ip</code></p>
+            <p>Returns your current IP address.</p>
+            <p><strong>Response:</strong> Plain text containing the IP address</p>
+            <a href="/ip" class="try-btn">
+                <i class="fas fa-play"></i>
+                Try it
+            </a>
+        </div>
+
+        <div class="endpoint">
+            <h3>
+                <i class="fas fa-globe"></i>
+                IP Geolocation Lookup
+            </h3>
+            <p><strong>Endpoint:</strong> <span class="method">GET</span> <code>/lookup?ip=x.x.x.x</code></p>
+            <p>Returns geolocation data for the specified IP address. If no IP is provided, it uses your current IP.</p>
+            <p><strong>Query Parameters:</strong></p>
+            <ul>
+                <li><code>ip</code> (optional) - The IP address to look up</li>
+            </ul>
+            <p><strong>Response Example:</strong></p>
+            <div class="response-example">
+                <pre>{
+    "country": "US",
+    "city": "San Francisco",
+    "latitude": 37.7749,
+    "longitude": -122.4194,
+    "postal_code": "94105",
+    "time_zone": "America/Los_Angeles",
+    "subdivision": "CA"
+}</pre>
+            </div>
+            <a href="/lookup" class="try-btn">
+                <i class="fas fa-play"></i>
+                Try it with your IP
+            </a>
+        </div>
+    </div>
+</body>
+</html>

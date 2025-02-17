@@ -1,9 +1,11 @@
 use actix_web::{get, web, App, HttpRequest, HttpResponse, HttpServer, Responder};
+use actix_files::NamedFile;
 use maxminddb::Reader;
 use serde::Serialize;
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::Arc;
+use std::path::PathBuf;
 
 // Struct to hold the geolocation data
 #[derive(Serialize)]
@@ -85,7 +87,7 @@ async fn lookup(
     }
 }
 
-#[get("/")]
+#[get("/ip")]
 async fn get_ip(req: HttpRequest) -> impl Responder {
     let ip = req
         .headers()
@@ -102,11 +104,17 @@ async fn get_ip(req: HttpRequest) -> impl Responder {
     HttpResponse::Ok().body(ip.to_string())
 }
 
+#[get("/")]
+async fn index() -> actix_web::Result<NamedFile> {
+    let path: PathBuf = "./static/index.html".into();
+    Ok(NamedFile::open(path)?)
+}
+
 // Main function to start the server
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // Path to your MaxMind GeoLite2 database
-    let db_path = "./GeoLite2-City.mmdb";
+    let db_path = "./data/GeoLite2-City.mmdb";
     let database = load_database(db_path);
 
     println!("Starting server on http://localhost:8080");
@@ -114,7 +122,8 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(database.clone())) // Share database across threads
-            .service(get_ip) // Ad
+            .service(index) // Serve HTML documentation at root
+            .service(get_ip) // IP endpoint
             .service(lookup) // Register the lookup endpoint
     })
     .bind(("127.0.0.1", 8080))?
