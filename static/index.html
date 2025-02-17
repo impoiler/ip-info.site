@@ -191,7 +191,9 @@
     "longitude": -122.4194,
     "postal_code": "94105",
     "time_zone": "America/Los_Angeles",
-    "subdivision": "CA"
+    "subdivision": "CA",
+    "asn": 13335,
+    "organization": "Cloudflare, Inc."
 }</pre>
             </div>
             <a href="/lookup" class="try-btn">
@@ -199,6 +201,91 @@
                 Try it with your IP
             </a>
         </div>
+
+        <div class="endpoint">
+            <h3>
+                <i class="fas fa-layer-group"></i>
+                Batch IP Lookup
+            </h3>
+            <p><strong>Endpoint:</strong> <span class="method">POST</span> <code>/batch-lookup</code></p>
+            <p>Lookup multiple IP addresses in a single request. Supports up to 100 IPs per request.</p>
+            <p><strong>Request Body:</strong></p>
+            <div class="response-example">
+                <pre>{
+    "ips": ["8.8.8.8", "1.1.1.1"]
+}</pre>
+            </div>
+            <p><strong>Response Example:</strong></p>
+            <div class="response-example">
+                <pre>{
+    "results": {
+        "8.8.8.8": {
+            "country": "US",
+            "city": "Mountain View",
+            "latitude": 37.4056,
+            "longitude": -122.0775,
+            "postal_code": "94043",
+            "time_zone": "America/Los_Angeles",
+            "subdivision": "CA",
+            "asn": 15169,
+            "organization": "Google LLC"
+        },
+        "1.1.1.1": {
+            "country": "US",
+            "city": "Los Angeles",
+            "latitude": 34.0522,
+            "longitude": -118.2437,
+            "postal_code": "90001",
+            "time_zone": "America/Los_Angeles",
+            "subdivision": "CA",
+            "asn": 13335,
+            "organization": "Cloudflare, Inc."
+        }
+    },
+    "errors": {}
+}</pre>
+            </div>
+            <div class="try-it-section">
+                <textarea id="batch-ips" placeholder="Enter IPs (one per line)" rows="5" style="width: 100%; margin-top: 1rem; background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem;"></textarea>
+                <button onclick="tryBatchLookup()" class="try-btn" style="margin-top: 1rem;">
+                    <i class="fas fa-play"></i>
+                    Try Batch Lookup
+                </button>
+                <pre id="batch-result" style="display: none; margin-top: 1rem;" class="response-example"></pre>
+            </div>
+        </div>
     </div>
+
+    <script>
+        async function tryBatchLookup() {
+            const textarea = document.getElementById('batch-ips');
+            const resultPre = document.getElementById('batch-result');
+            
+            const ips = textarea.value.split('\n')
+                .map(ip => ip.trim())
+                .filter(ip => ip.length > 0);
+            
+            if (ips.length === 0) {
+                alert('Please enter at least one IP address');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/batch-lookup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ ips })
+                });
+                
+                const data = await response.json();
+                resultPre.textContent = JSON.stringify(data, null, 2);
+                resultPre.style.display = 'block';
+            } catch (error) {
+                alert('Error performing batch lookup: ' + error.message);
+            }
+        }
+    </script>
 </body>
 </html>
