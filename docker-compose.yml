@@ -1,0 +1,7 @@
+services:
+  ip-info:
+    build: .
+    ports:
+      - "8085:8085"
+    restart: unless-stopped
+    container_name: ip-info-site
