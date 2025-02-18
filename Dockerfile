@@ -30,7 +30,7 @@ COPY --from=builder /usr/src/app/target/release/ip-info-site /app/ip-info-site
 COPY data /data
 COPY static /static
 
-EXPOSE 8080
+EXPOSE 8085
 
 # Set the startup command
 CMD ["/app/ip-info-site"]

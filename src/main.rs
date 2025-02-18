@@ -186,7 +186,7 @@ async fn index() -> actix_web::Result<NamedFile> {
 async fn main() -> std::io::Result<()> {
     let databases = load_databases();
 
-    println!("Starting server on http://localhost:8080");
+    println!("Starting server on http://0.0.0.0:8085");
 
     HttpServer::new(move || {
         App::new()
@@ -201,7 +201,7 @@ async fn main() -> std::io::Result<()> {
                     .add(("Access-Control-Allow-Methods", "GET, POST"))
             ))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", 8085))?
     .run()
     .await
 }
