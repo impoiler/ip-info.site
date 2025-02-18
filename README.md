@@ -119,7 +119,7 @@ This project is built with Rust and uses:
 
 ## Author
 
-Created by Suresh
+Created by [Suresh](https://github.com/impoiler)
 
 ## Repository
 
